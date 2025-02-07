@@ -3,15 +3,18 @@ import os
 
 app = Flask(__name__)
 
-# Set the folder to store uploaded videos
 UPLOAD_FOLDER = 'uploads'
 if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 * 1024  # 1GB
 
-# Set the maximum upload size to 1GB (or any size you want)
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 * 1024  # 1 GB in bytes
+@app.after_request
+def after_request(response):
+    # Add the ngrok-skip-browser-warning header to every response
+    response.headers['ngrok-skip-browser-warning'] = 'anyvalue'
+    return response
 
 @app.route('/')
 def index():
@@ -27,7 +30,6 @@ def upload_video():
     if video.filename == '':
         return "No file selected", 400
 
-    # Save the video to the upload folder
     video_path = os.path.join(app.config['UPLOAD_FOLDER'], video.filename)
     video.save(video_path)
 
@@ -38,4 +40,4 @@ def upload_success():
     return "Video uploaded successfully!"
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='0.0.0.0', port=80)
