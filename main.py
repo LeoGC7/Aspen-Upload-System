@@ -8,12 +8,11 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 * 1024  # 1GB
+app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 * 1024
 
 @app.after_request
 def after_request(response):
-    # Add the ngrok-skip-browser-warning header to every response
-    response.headers['ngrok-skip-browser-warning'] = 'anyvalue'
+    response.headers['ngrok-skip-browser-warning'] = 'true'
     return response
 
 @app.route('/')
@@ -35,9 +34,6 @@ def upload_video():
 
     return f"Video uploaded successfully! Saved to: {video_path}"
 
-@app.route('/upload_success')
-def upload_success():
-    return "Video uploaded successfully!"
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=80)
