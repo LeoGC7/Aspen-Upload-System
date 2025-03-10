@@ -8,12 +8,7 @@ if not os.path.exists(UPLOAD_FOLDER):
     os.makedirs(UPLOAD_FOLDER)
 
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
-app.config['MAX_CONTENT_LENGTH'] = 1 * 1024 * 1024 * 1024
-
-@app.after_request
-def after_request(response):
-    response.headers['ngrok-skip-browser-warning'] = 'true'
-    return response
+app.config['MAX_CONTENT_LENGTH'] = 2 * 1024 * 1024 * 1024
 
 @app.route('/')
 def index():
@@ -32,8 +27,6 @@ def upload_video():
     video_path = os.path.join(app.config['UPLOAD_FOLDER'], video.filename)
     video.save(video_path)
 
-    return f"Video uploaded successfully! Saved to: {video_path}"
-
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=80, debug=True)
