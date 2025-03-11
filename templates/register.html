@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/login.css')}}">
+    <style>
+        .register-message {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+            color: green;
+        }
+        .register-message p {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form method="POST" class="login-form" id="registrationForm">
+            <div class="image-container">
+                <img src="{{url_for('static', filename='images/aspen-logo.png')}}" alt="Aspen Logo" class="logo">
+            </div>
+            <div class="input-container">
+                <label for="email" class="form-label">Aspen Email</label>
+                <input type="text" class="form-input" name="email">
+            </div>
+            <div class="input-container">
+                <label for="username" class="form-label">Username</label>
+                <input type="text" class="form-input" name="username">
+            </div>
+            <div class="input-container password-container">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-input" id="password" name="password">
+                <button type="button" class="toggle-password" data-target="password">Show</button>
+            </div>
+            <div class="input-container password-container">
+                <label for="confirm-password" class="form-label">Confirm Password</label>
+                <input type="password" class="form-input" id="confirm-password" name="confirm-password">
+                <button type="button" class="toggle-password" data-target="confirm-password">Show</button>
+            </div>
+            <div class="button-container">
+                <button class="form-button">Register</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        const toggleButtons = document.querySelectorAll('.toggle-password');
+        const registrationForm = document.getElementById('registrationForm');
+        const registerMessage = document.getElementById('register-message');
+
+        toggleButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const targetId = this.getAttribute('data-target');
+                const passwordInput = document.getElementById(targetId);
+
+                if (passwordInput.type === 'password') {
+                    passwordInput.type = 'text';
+                    this.textContent = 'Hide';
+                } else {
+                    passwordInput.type = 'password';
+                    this.textContent = 'Show';
+                }
+                updateOtherButton(targetId, this.textContent);
+            });
+        });
+
+        function updateOtherButton(targetId, buttonText) {
+            const otherTarget = targetId === "password" ? "confirm-password" : "password";
+            const otherButton = document.querySelector(`.toggle-password[data-target="${otherTarget}"]`);
+            if (otherButton){
+                otherButton.textContent = buttonText;
+            }
+        }
+    </script>
+</body>
+</html>

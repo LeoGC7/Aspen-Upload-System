@@ -61,6 +61,7 @@ const fileInput = document.getElementById('video');
                 progressPercentage.textContent = 'Upload Failed!';
             });
 
-            xhr.open('POST', '/upload', true);
+            let actualUrl = window.location.href;
+            xhr.open('POST', actualUrl, true);
             xhr.send(formData);
         });

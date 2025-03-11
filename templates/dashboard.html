@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uploaded Videos</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='css/dashboard.css')}}">
+</head>
+<body>
+    <div class="welcome">
+        <h1 class="title">Welcome, <span>{{ username }}</span></h1>
+        <img src="{{url_for('static', filename='images/aspen-logo.png')}}" alt="" class="logo">
+    </div>
+    <div class="main">
+        <div class="link-container">
+            <p class="link-text">This is your link to upload videos:</p>
+            <a href="{{ request.url_root }}upload_video/{{ user_hash }}" target="_blank">{{ request.url_root }}upload_video/{{ user_hash }}</a>
+        </div>
+        <p class="uploaded">Uploaded Videos:</p>
+        {% for video in videos %}
+            <a class="video" href="{{ url_for('static', filename='uploads/' + user_hash + '/' + video) }}" target="_blank">
+                <img class="video-icon" src="{{url_for('static', filename='images/video.png')}}" alt="">
+                {{ video }}
+            </a>
+        {% endfor %}
+    </div>
+    
+</body>
+</html>
